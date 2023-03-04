@@ -26,5 +26,8 @@ class Despacho:
             "order_status": self.order_status,
             "order_items": self.order_items,
             "order_total": self.order_total,
+            "pod_id": self.pod_id,
+            "date_despacho": self.date_despacho,
+            "vehiculo_minimo_code": self.vehiculo_minimo_code,
             "order_version": self.order_version,
         }
