@@ -12,7 +12,7 @@ from modules.despachos.domain.entities import Despacho
 
 def iniciar_despacho(order):
     try:
-        db= get_db()
+        db = get_db()
         params = dict(
             order_id = order.order_id,
             customer_id = order.customer_id,
@@ -30,6 +30,7 @@ def iniciar_despacho(order):
         despacho = Despacho(**params)
         repository = DespachosRepositorySQLAlchemy(db)
         repository.create(despacho)
+        db.close()
     except IntegrityError:
         raise BaseAPIException(f"Error creating order, primary key integrity violated (Duplicate ID)", 400)
     except Exception as e:
