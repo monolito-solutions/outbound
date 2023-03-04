@@ -12,6 +12,9 @@ class Despacho:
     order_status: str
     order_items: List[dict]
     order_total: float
+    pod_id: str
+    date_despacho: str
+    vehiculo_minimo_code: str
     order_version: int = 2
 
 
@@ -23,5 +26,5 @@ class Despacho:
             "order_status": self.order_status,
             "order_items": self.order_items,
             "order_total": self.order_total,
-            "order_version": self.order_version
+            "order_version": self.order_version,
         }

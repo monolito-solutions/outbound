@@ -10,5 +10,9 @@ class DespachoDTO(Base):
     order_status = Column(String(100), index=True)
     order_items = Column(Text(1000000), index=True)
     order_total = Column(Float, index=True)
+    pod_id = Column(String(100), index=True)
+    date_despacho = Column(String(100), index=True)
+    vehiculo_minimo_code = Column(String(100), index=True)
     order_version = Column(Integer, index=True)
 
+    
