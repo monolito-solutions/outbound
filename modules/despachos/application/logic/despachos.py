@@ -13,7 +13,7 @@ from modules.despachos.domain.entities import Despacho
 def iniciar_despacho(order, db=Depends(get_db)):
     try:
         params = dict(
-            order_id = order.id,
+            order_id = order.order_id,
             customer_id = order.customer_id,
             order_date = order.order_date,
             order_status = order.order_status,
