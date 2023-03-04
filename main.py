@@ -5,7 +5,7 @@ import uvicorn
 import asyncio
 from sqlalchemy.exc import OperationalError
 from infrastructure.consumers import subscribe_to_topic
-from modules.despachos.application.events.events import EventOrderConfirmed, EventOrderDispatched, OrderDispatchedPayload
+from modules.despachos.application.events.events import  OrderDispatchedPayload
 from modules.despachos.application.commands.commands import CheckOrderPayload, CommandCheckOrder
 from api.errors.exceptions import BaseAPIException
 from api.errors.handlers import api_exeption_handler
