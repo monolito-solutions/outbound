@@ -1,18 +1,24 @@
 
 from config.db import get_db
 from fastapi import Depends
-from modules.orders.infrastructure.repositories import OrdersRepositorySQLAlchemy
+from modules.despachos.application.events.events import OrderDispatchedPayload, ProductPayload, EventOrderDispatched
+from modules.despachos.infrastructure.repositories import DespachosRepositorySQLAlchemy
+from modules.despachos.application.commands.commands import CommandCheckOrder, CheckOrderPayload
+from sqlalchemy.exc import IntegrityError
+from api.errors.exceptions import BaseAPIException
+from infrastructure.dispatchers import Dispatcher
+import utils
 
 def iniciar_despacho(order, db=Depends(get_db)):
     try:
-        repository = OrdersRepositorySQLAlchemy(db)
+        repository = DespachosRepositorySQLAlchemy(db)
         repository.create(order)
     except IntegrityError:
         raise BaseAPIException(f"Error creating order, primary key integrity violated (Duplicate ID)", 400)
     except Exception as e:
         raise BaseAPIException(f"Error creating order: {e}", 500)
 
-    event_payload = OrderCreatedPayload(
+    event_payload = OrderDispatchedPayload(
         order_id = str(order.order_id),
         customer_id = str(order.customer_id),
         order_date = str(order.order_date),
@@ -22,20 +28,20 @@ def iniciar_despacho(order, db=Depends(get_db)):
         order_version = int(order.order_version)
     )
 
-    event = EventOrderCreated(
+    event = EventOrderDispatched(
         time = utils.time_millis(),
         ingestion = utils.time_millis(),
-        datacontenttype = OrderCreatedPayload.__name__,
+        datacontenttype = OrderDispatchedPayload.__name__,
         data_payload = event_payload
     )
 
-    command_payload = CheckInventoryPayload(**event_payload.to_dict())
+    command_payload = CheckOrderPayload(**event_payload.to_dict())
     command_payload.order_status = "Ready to check inventory"
 
-    command = CommandCheckInventoryOrder(
+    command = CommandCheckOrder(
         time = utils.time_millis(),
         ingestion = utils.time_millis(),
-        datacontenttype = CheckInventoryPayload.__name__,
+        datacontenttype = CheckOrderPayload.__name__,
         data_payload = command_payload
     )
 
