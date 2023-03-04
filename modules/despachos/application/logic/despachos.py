@@ -10,8 +10,9 @@ from infrastructure.dispatchers import Dispatcher
 import utils
 from modules.despachos.domain.entities import Despacho
 
-def iniciar_despacho(order, db=Depends(get_db)):
+def iniciar_despacho(order):
     try:
+        db= get_db()
         params = dict(
             order_id = order.order_id,
             customer_id = order.customer_id,
