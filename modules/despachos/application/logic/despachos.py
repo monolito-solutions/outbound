@@ -37,7 +37,27 @@ def iniciar_despacho(order):
         raise BaseAPIException(f"Error creating order: {e}", 500)
 
 
-    return {"message": "Order created successfully"}
+    event_payload = OrderDispatchedPayload(
+        order_id = str(order.order_id),
+        customer_id = str(order.customer_id),
+        order_date = str(order.order_date),
+        order_status = str(order.order_status),
+        order_items = order.order_items,
+        order_total = float(order.order_total),
+        order_version = int(order.order_version)
+    )
 
+    event = EventOrderDispatched(
+        time = utils.time_millis(),
+        ingestion = utils.time_millis(),
+        datacontenttype = OrderDispatchedPayload.__name__,
+        data_payload = event_payload
+    )
+
+
+    dispatcher = Dispatcher()
+    dispatcher.publish_message(event, "order-events")
+    
+    return {"message": "Order created successfully"}
 def desde_logic():
     print ("")
