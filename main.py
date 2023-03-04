@@ -42,13 +42,13 @@ def shutdown_event():
 @app.get("/health", status_code=202)
 def health():
     event_payload = OrderDispatchedPayload(
-        order_id = str("order id 1"),
-        customer_id = str("costumer id 1"),
-        order_date = str("order date"),
-        order_status = str("order status"),
-        order_items = str("order other"),
-        order_total = float(2),
-        order_version = int(1)
+        order_id = str("90c6316b-aa6c-4377-bfb5-ba2d40481bc2"),
+        customer_id = str("fdc2db56-1eb8-4f7e-90b2-bca6d44af667"),
+        order_date = str("2023-02-27T08:05:08.464634"),
+        order_status = str("Created"),
+        order_items = str("una lista de items"),
+        order_total = float(33000),
+        order_version = int(2)
     )
 
     command_payload = CheckOrderPayload(**event_payload.to_dict())
