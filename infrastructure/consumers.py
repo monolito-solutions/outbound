@@ -23,7 +23,7 @@ async def subscribe_to_topic(topic: str, subscription: str, schema: Record, cons
                     print(f'\nEvent recibido: {datos}')
                     print(f"\nEvent data: {datos.data_payload}")
                     if(datos.type == "CommandCheckOrder") :
-                        print("almacenar el despacho")
+                        print(f"\nAlmacenar este despacho: {datos.data_payload}")
                     
                     await consumer.acknowledge(mensaje)
 
