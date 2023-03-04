@@ -7,7 +7,7 @@ import json
 from fastavro.schema import parse_schema
 from pulsar.schema import *
 
-class ProductPayload(Record):
+class ProductPayload():
     product_id = String()
     supplier_id = String()
     name = String()
