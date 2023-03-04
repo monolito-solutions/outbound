@@ -46,7 +46,24 @@ def health():
         customer_id = str("fdc2db56-1eb8-4f7e-90b2-bca6d44af667"),
         order_date = str("2023-02-27T08:05:08.464634"),
         order_status = str("Created"),
-        order_items = str("una lista de items"),
+        order_items = str('''[
+      {
+        "product_id": "9cad4dc7-50c0-44d7-9ed9-3f887a9d565b",
+        "supplier_id": "987eba3c-ae2b-4382-86f9-7ea238733e05",
+        "name": "product1",
+        "description": "Test Desc",
+        "price": 33000.0,
+        "quantity": 5
+      },
+      {
+        "product_id": "9cad4dc3-50c0-44d7-9ed9-3f887a9d565b",
+        "supplier_id": "987eba4c-ae2b-4382-86f9-7ea238733e05",
+        "name": "product2",
+        "description": "Test Desc 2",
+        "price": 33000.0,
+        "quantity": 3
+      }
+    ]'''),
         order_total = float(33000),
         order_version = int(2)
     )

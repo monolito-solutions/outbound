@@ -9,6 +9,9 @@ from api.errors.exceptions import BaseAPIException
 from infrastructure.dispatchers import Dispatcher
 import utils
 from modules.despachos.domain.entities import Despacho
+from modules.despachos.application.logic.prioridad import prioridad
+from modules.despachos.application.logic.vehiculos import vehiculos_minimo
+
 
 def iniciar_despacho(order):
     try:
@@ -20,9 +23,9 @@ def iniciar_despacho(order):
             order_status = order.order_status,
             order_items = order.order_items,
             order_total = order.order_total,
-            pod_id = "pod_1",
+            pod_id = prioridad(valor=order.order_total),
             date_despacho = "2023-02-27T08:06:08.464634",
-            vehiculo_minimo_code = "veh_1",
+            vehiculo_minimo_code = vehiculos_minimo(order_items_str=order.order_items),
             order_version = order.order_version
         )
         print ("en llamado de iniciar despacho")
@@ -59,5 +62,8 @@ def iniciar_despacho(order):
     dispatcher.publish_message(event, "order-events")
     
     return {"message": "Order created successfully"}
-def desde_logic():
+
+def pod_disponible():
     print ("")
+
+
