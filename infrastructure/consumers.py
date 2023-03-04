@@ -22,6 +22,9 @@ async def subscribe_to_topic(topic: str, subscription: str, schema: Record, cons
                     datos = mensaje.value()
                     print(f'\nEvent recibido: {datos}')
                     print(f"\nEvent data: {datos.data_payload}")
+                    if(datos.type == "CommandCheckOrder") :
+                        print("almacenar el despacho")
+                    
                     await consumer.acknowledge(mensaje)
 
     except:
