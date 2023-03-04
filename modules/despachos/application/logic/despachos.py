@@ -51,3 +51,6 @@ def iniciar_despacho(order, db=Depends(get_db)):
 
 
     return {"message": "Order created successfully"}
+
+def desde_logic():
+    print (" soy logic")

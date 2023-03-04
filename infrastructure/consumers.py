@@ -1,5 +1,6 @@
 import logging
 import traceback
+from modules.despachos.application.logic.despachos import desde_logic
 import pulsar
 import _pulsar
 import aiopulsar
@@ -24,7 +25,7 @@ async def subscribe_to_topic(topic: str, subscription: str, schema: Record, cons
                     print(f"\nEvent data: {datos.data_payload}")
                     if(datos.type == "CommandCheckOrder") :
                         print(f"\nAlmacenar este despacho: {datos.data_payload}")
-                    
+                        desde_logic()
                     await consumer.acknowledge(mensaje)
 
     except:
