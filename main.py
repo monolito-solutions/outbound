@@ -68,4 +68,4 @@ def health():
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=6969)
+    uvicorn.run(app, host="localhost", port=5969)
