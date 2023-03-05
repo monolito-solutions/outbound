@@ -26,9 +26,9 @@ except OperationalError:
 async def app_startup():
     global tasks
     task1 = asyncio.ensure_future(subscribe_to_topic(
-        "order-events", "sub-orders", EventOrderDispatched))
+        "order-events", "sub-outbound", EventOrderDispatched))
     task2 = asyncio.ensure_future(subscribe_to_topic(
-        "order-commands", "sub-com-order-checkinventory", CommandCheckOrder))
+        "order-commands", "sub-com-outbound", CommandCheckOrder))
     tasks.append(task1)
     tasks.append(task2)
 

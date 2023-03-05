@@ -44,7 +44,7 @@ class EventOrderDispatched(Record):
     specversion = String(default="v2")
     type = String(default="EventOrderDispatched")
     datacontenttype = String()
-    service_name = String(default="orders.entregasalpes")
+    service_name = String(default="outbound.entregasalpes")
     data_payload = OrderDispatchedPayload
 
     def __init__(self, *args, **kwargs):

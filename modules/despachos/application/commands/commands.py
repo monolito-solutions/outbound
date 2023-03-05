@@ -20,7 +20,7 @@ class CommandCheckOrder(Record):
     specversion = String(default="v2")
     type = String(default="CommandCheckOrder")
     datacontenttype = String()
-    service_name = String(default="orders.entregasalpes")
+    service_name = String(default="outbound.entregasalpes")
     data_payload = CheckOrderPayload
 
     def __init__(self, *args, **kwargs):
