@@ -1,7 +1,7 @@
 
 from config.db import get_db
 from fastapi import Depends
-from modules.despachos.application.events.events import OrderDispatchedPayload, ProductPayload, EventOrderDispatched
+from modules.despachos.application.events.events import EventOrderCanceledByPrice, OrderDispatchedPayload, ProductPayload, EventOrderDispatched
 from modules.despachos.infrastructure.repositories import DespachosRepositorySQLAlchemy
 from modules.despachos.application.commands.commands import CommandCheckOrder, CheckOrderPayload
 from sqlalchemy.exc import IntegrityError
@@ -28,7 +28,11 @@ def iniciar_despacho(order):
             vehiculo_minimo_code = vehiculos_minimo(order_items_str=order.order_items),
             order_version = order.order_version
         )
+        state_order = "dispatched"
+        if ( params.pod_id == "prioridad_critica"):
+            state_order = "canceled"
         print ("en llamado de iniciar despacho")
+        params.order_status = state_order
         print (params)
         despacho = Despacho(**params)
         repository = DespachosRepositorySQLAlchemy(db)
@@ -39,29 +43,41 @@ def iniciar_despacho(order):
     except Exception as e:
         raise BaseAPIException(f"Error creating order: {e}", 500)
 
+    
+
 
     event_payload = OrderDispatchedPayload(
         order_id = str(order.order_id),
         customer_id = str(order.customer_id),
         order_date = str(order.order_date),
-        order_status = str(order.order_status),
+        order_status = params.order_status,
         order_items = order.order_items,
         order_total = float(order.order_total),
         order_version = int(order.order_version)
     )
-
-    event = EventOrderDispatched(
-        time = utils.time_millis(),
-        ingestion = utils.time_millis(),
-        datacontenttype = OrderDispatchedPayload.__name__,
-        data_payload = event_payload
-    )
+    
+    message = "Order created successfully"
+    if ( params.order_status == "canceled"):
+        event = EventOrderCanceledByPrice(
+            time = utils.time_millis(),
+            ingestion = utils.time_millis(),
+            datacontenttype = OrderDispatchedPayload.__name__,
+            data_payload = event_payload
+        )
+        message = "Order canceled"
+    else:     
+        event = EventOrderDispatched(
+            time = utils.time_millis(),
+            ingestion = utils.time_millis(),
+            datacontenttype = OrderDispatchedPayload.__name__,
+            data_payload = event_payload
+        )
 
 
     dispatcher = Dispatcher()
     dispatcher.publish_message(event, "order-events")
     
-    return {"message": "Order created successfully"}
+    return {"message": message}
 
 def pod_disponible():
     print ("")

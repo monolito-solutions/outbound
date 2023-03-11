@@ -49,3 +49,16 @@ class EventOrderDispatched(Record):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+class EventOrderCanceledByPrice(Record):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v2")
+    type = String(default="EventOrderCanceledByPrice")
+    datacontenttype = String()
+    service_name = String(default="outbound.entregasalpes")
+    data_payload = OrderDispatchedPayload
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
