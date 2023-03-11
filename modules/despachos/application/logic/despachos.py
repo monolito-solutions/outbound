@@ -57,7 +57,7 @@ def iniciar_despacho(order):
     )
     
     message = "Order created successfully"
-    if ( params.order_status == "canceled"):
+    if ( params["order_status"] == "canceled"):
         event = EventOrderCanceledByPrice(
             time = utils.time_millis(),
             ingestion = utils.time_millis(),
