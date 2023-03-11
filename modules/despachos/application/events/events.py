@@ -55,7 +55,7 @@ class EventOrderCanceledByPrice(Record):
     time = Long()
     ingestion = Long(default=time_millis())
     specversion = String(default="v2")
-    type = String(default="EventOrderCanceledByPrice")
+    type = String(default="ErrorDispatchingOrder")
     datacontenttype = String()
     service_name = String(default="outbound.entregasalpes")
     data_payload = OrderDispatchedPayload
