@@ -29,10 +29,10 @@ def iniciar_despacho(order):
             order_version = order.order_version
         )
         state_order = "dispatched"
-        if ( params.pod_id == "prioridad_critica"):
+        if ( params["pod_id"] == "prioridad_critica"):
             state_order = "canceled"
         print ("en llamado de iniciar despacho")
-        params.order_status = state_order
+        params["order_status"] = state_order
         print (params)
         despacho = Despacho(**params)
         repository = DespachosRepositorySQLAlchemy(db)
@@ -50,7 +50,7 @@ def iniciar_despacho(order):
         order_id = str(order.order_id),
         customer_id = str(order.customer_id),
         order_date = str(order.order_date),
-        order_status = params.order_status,
+        order_status = params["order_status"],
         order_items = order.order_items,
         order_total = float(order.order_total),
         order_version = int(order.order_version)
