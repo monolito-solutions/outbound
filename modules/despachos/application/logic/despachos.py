@@ -55,7 +55,7 @@ def iniciar_despacho(order):
         order_total = float(order.order_total),
         order_version = int(order.order_version)
     )
-    
+    print ("param", params["order_status"],str(order.order_total))
     message = "Order created successfully"
     if ( params["order_status"] == "canceled"):
         event = EventOrderCanceledByPrice(
