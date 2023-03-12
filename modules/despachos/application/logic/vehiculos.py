@@ -29,7 +29,7 @@ def get_vehicle(total_quantity):
 def vehiculos_minimo(order_items_str):
     # Parsear el string de order_items en una lista de objetos ProductPayload
     try:  
-        order_items = [ProductPayload.from_json(item_str) for item_str in eval(order_items_str)]
+        order_items = json.loads(order_items_str)
     
         # Sumar las cantidades de todos los objetos ProductPayload en la lista
         total_quantity = sum([item.quantity for item in order_items])
