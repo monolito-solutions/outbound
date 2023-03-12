@@ -32,7 +32,7 @@ def vehiculos_minimo(order_items_str):
         order_items = json.loads(order_items_str)
     
         # Sumar las cantidades de todos los objetos ProductPayload en la lista
-        total_quantity = sum([item.quantity for item in order_items])
+        total_quantity = sum([item["quantity"] for item in order_items])
         vehicle = get_vehicle(total_quantity)
         return vehicle
     except Exception as e:
